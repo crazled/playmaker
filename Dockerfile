@@ -1,11 +1,13 @@
 FROM python:3-stretch
 
 RUN apt-get update && \
-    apt-get install -y git \
-    lib32stdc++6 \
-    lib32gcc1 \
-    lib32z1 \
-    lib32ncurses5 \
+    apt-get install -y --no-install-recommends \
+    git \
+    libstdc++6 \
+    libgcc1 \
+    libz1 \
+    zlib1g \
+    libncurses5 \
     libffi-dev \
     libssl-dev \
     libjpeg-dev \
@@ -16,25 +18,45 @@ RUN apt-get update && \
     wget \
     unzip \
     fdroidserver \
-    zlib1g-dev
+    zlib1g-dev \
+    aapt \
+    android-libaapt \
+    android-libbase \
+    android-libutils \
+    android-libandroidfw \
+    android-sdk \
+    android-sdk-common \
+    android-sdk-build-tools \
+    android-sdk-build-tools-common \
+    android-platform-tools-base \
+    android-sdk-platform-tools \
+    android-sdk-platform-tools-common \
+    dalvik-exchange \
+    zipalign \
+    split-select \
+    aidl \
+    dexdump \
+    dalvik-exchange \
+    proguard-cli \
+    android-libdex \
+    maven \
+    gradle \
+    adb \
+    libandroid-dex-java \
+    libgradle-android-plugin-java \
+    apktool \
+    apksigner \
+    signapk && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN wget https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip \
-    && echo "444e22ce8ca0f67353bda4b85175ed3731cae3ffa695ca18119cbacef1c1bea0  sdk-tools-linux-3859397.zip" | sha256sum -c \
-    && unzip sdk-tools-linux-3859397.zip \
-    && rm sdk-tools-linux-3859397.zip
-
-RUN mkdir /opt/android-sdk-linux
-ENV ANDROID_HOME=/opt/android-sdk-linux
+ENV ANDROID_HOME=/usr/lib/android-sdk
 ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
-RUN echo 'y' | tools/bin/sdkmanager --sdk_root=/opt/android-sdk-linux --verbose "platforms;android-26" \
-    && tools/bin/sdkmanager --sdk_root=/opt/android-sdk-linux --verbose "build-tools;26.0.1" \
-    && rm -rf tools
 
 RUN mkdir -p /data/fdroid/repo && \
     mkdir -p /opt/playmaker
 
 COPY README.md setup.py pm-server /opt/playmaker/
-ADD playmaker /opt/playmaker/playmaker
+COPY playmaker /opt/playmaker/playmaker
 
 WORKDIR /opt/playmaker
 RUN pip3 install . && \
