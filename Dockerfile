@@ -1,7 +1,8 @@
-FROM python:3-stretch
+FROM python:3-buster
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    dumb-init \
     git \
     libstdc++6 \
     libgcc1 \
@@ -72,4 +73,6 @@ VOLUME /data/fdroid
 WORKDIR /data/fdroid
 
 EXPOSE 5000
-ENTRYPOINT python3 -u /usr/local/bin/pm-server --fdroid --debug
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["/usr/local/bin/python3", "-u", "/usr/local/bin/pm-server", "--fdroid", "--debug"]
