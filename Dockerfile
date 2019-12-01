@@ -14,7 +14,7 @@ RUN apt-get update && \
     libjpeg-dev \
     libxml2-dev \
     libxslt1-dev \
-    openjdk-8-jdk-headless \
+    openjdk-11-jdk-headless \
     virtualenv \
     wget \
     unzip \
@@ -29,7 +29,6 @@ RUN apt-get update && \
     android-sdk-common \
     android-sdk-build-tools \
     android-sdk-build-tools-common \
-    android-platform-tools-base \
     android-sdk-platform-tools \
     android-sdk-platform-tools-common \
     dalvik-exchange \
@@ -39,12 +38,9 @@ RUN apt-get update && \
     dexdump \
     dalvik-exchange \
     proguard-cli \
-    android-libdex \
     maven \
     gradle \
     adb \
-    libandroid-dex-java \
-    libgradle-android-plugin-java \
     apktool \
     apksigner \
     signapk && \
